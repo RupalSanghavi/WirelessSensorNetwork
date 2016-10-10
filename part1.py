@@ -39,7 +39,10 @@ for key, val in adj_list.items():
     print key, val
     for p in pos[key]:
         f.write(str(p) + " ")
-    f.write('\n')
+    for p in val:
+        for q in pos[p]:
+            f.write(str(q) + " ")
+    f.write('S' + '\n')
         #f.write(p) #[0] + " " + pos[key][1] + " ")
 f.close()
 print(count)
