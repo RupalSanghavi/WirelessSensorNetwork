@@ -1,12 +1,5 @@
 import sys
 
-# def create_list:
-#     for i in pairs:
-#         adj_list.setdefault(i[0], []) #create list for values
-#         adj_list.setdefault(i[1], []) #create list for values
-#         adj_list[i[0]].append(i[1])
-#         adj_list[i[1]].append(i[0])
-#     return
 def read_file(lines):
     with open(sys.argv[1], "r") as file:
         for line in file:
@@ -17,4 +10,14 @@ def read_file(lines):
             #print(line)
 lines = []
 read_file(lines)
-print lines[0].split()
+coordinates = lines[0].split()
+print coordinates
+adj_list = {}
+for line in lines:
+    coordinates = line.split()
+    center_vertice = [coordinates[0]]
+    center_vertice.append(coordinates[1])
+    for adjacent_vertex in coordinates[2:]:
+        #data = [1,2,3,4,5,6]
+        for i,k in zip(coordinates[0::2], coordinates[1::2]):
+            adj_list['check'] = [i,k]

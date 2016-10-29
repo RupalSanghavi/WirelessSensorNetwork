@@ -5,10 +5,25 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import sys
 import random
+from collections import OrderedDict
 
+def degreeCalc(adj_list, degreesSorted):
 
-def writetofile(pairs):
-    adj_list = {}
+    orderedDict = OrderedDict(sorted(adj_list.items(), key=lambda t: len(t[1])))
+    for key,value in orderedDict.iteritems():
+        print len(value)
+    minDeg = len(orderedDict.popitem(last = False)[1])
+    maxDeg = len(orderedDict.popitem(last = True)[1])
+
+    # for i in nnodes:
+
+    # print(orderedDict.popitem(last = True))
+    # print(orderedDict.popitem(last = True))
+    print("hi")
+    #for key in adj_list:
+
+def writetofile(adj_list,pairs):
+
     for i in pairs:
         adj_list.setdefault(i[0], []) #create list for values
         adj_list.setdefault(i[1], []) #create list for values
@@ -19,8 +34,8 @@ def writetofile(pairs):
         count += 1
         #print key, val
         for p in pos[key]:
-            f.write(str(p) + " ")
-        for p in val:
+            f.write(str(p) + " ") #write x and y of center vertice
+        for p in val:               #write x and y of adjacent vertices
             for q in pos[p]:
                 f.write(str(q) + " ")
         f.write('S' + '\n')
@@ -31,8 +46,8 @@ def writetofile(pairs):
 file = sys.argv[1]
 f = open(file, 'w')
 
-nnodes = 16000
-avg_deg = 64
+nnodes = 1000
+avg_deg = 32
 r = math.sqrt((avg_deg)/(nnodes*math.pi))
 print(r)
 
@@ -60,4 +75,7 @@ G.add_edges_from(list(pairs))
 pos = dict(zip(range(nnodes),positions))
 # nx.draw(G,pos)
 # plt.show()
-writetofile(pairs)
+adj_list = {}
+writetofile(adj_list, pairs)
+degreesSorted = []
+degreeCalc(adj_list, degreesSorted)
