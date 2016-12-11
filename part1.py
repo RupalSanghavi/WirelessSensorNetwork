@@ -15,7 +15,7 @@ def smallestLast(nnodes, adj_list, degrees):
     for key,value in orderedDict.iteritems():
         degrees[key] = len(value)
         sum += len(value)
-    print(degrees)
+    #print(degrees)
     calculatedDeg = sum/nnodes
     print(calculatedDeg)
     maxDeg = len(next(reversed(orderedDict.items()))[1])
@@ -118,7 +118,7 @@ f = open(file, 'w')
 nnodes = 4000
 avg_deg = 64
 r = math.sqrt((avg_deg)/(nnodes*math.pi))
-#print(r)
+print(r)
 
 #r = 1
 positions = []
