@@ -7,6 +7,9 @@ import sys
 import random
 from collections import OrderedDict
 
+
+def smallestLast(nnodes, adj_list, degrees):
+    print("nothing")
 def degreeCalc(nnodes, adj_list, degrees):
     colorCount = {}
     colorsUsed = {}
@@ -128,7 +131,7 @@ G.add_nodes_from(range(nnodes))
 G.add_edges_from(list(pairs))
 pos = dict(zip(range(nnodes),positions))
 nx.draw(G,pos)
-# plt.show()
+plt.show()
 adj_list = {}
 writetofile(adj_list, pairs)
 degrees = {}
