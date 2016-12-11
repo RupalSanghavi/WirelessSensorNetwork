@@ -1,4 +1,5 @@
 import numpy as np
+import copy
 import math
 from scipy import spatial
 import networkx as nx
@@ -22,6 +23,7 @@ def smallestLast(nnodes, adj_list, degrees):
     minDeg = len(orderedDict.items()[0][1])
     print(minDeg)
     print(maxDeg)
+
 def degreeCalc(nnodes, adj_list, degrees):
     colorCount = {}
     colorsUsed = {}
@@ -117,26 +119,29 @@ f = open(file, 'w')
 
 nnodes = 4000
 avg_deg = 64
-r = math.sqrt((avg_deg)/(nnodes*math.pi))
+r = math.sqrt(avg_deg/float(nnodes))  #for disk
+#r = math.sqrt((avg_deg)/(nnodes*math.pi))  #for square
+
+#r = 0.15
 print(r)
 
 #r = 1
 positions = []
-positions =  np.random.rand(nnodes,2)
+#positions =  np.random.rand(nnodes,2)
 
 count = 0
-# while (count < nnodes):
-#     coordinates = []
-#     rad = random.uniform(0,1)
-#     deg = random.uniform(0,(2*math.pi))   #generate random degree
-#     #print(deg)
-#     coordinates.append(math.sqrt(rad)*math.cos(deg))
-#     coordinates.append(math.sqrt(rad)*math.sin(deg))
-#     # coordinates.append(math.sqrt(r)*math.cos(math.radians(deg)))
-#     # coordinates.append(math.sqrt(r)*math.sin(math.radians(deg)))
-#     #print(coordinates)
-#     positions.append(coordinates)
-#     count += 1
+while (count < nnodes):
+    coordinates = []
+    rad = random.uniform(0,1)
+    deg = random.uniform(0,(2*math.pi))   #generate random degree
+    #print(deg)
+    coordinates.append(math.sqrt(rad)*math.cos(deg))
+    coordinates.append(math.sqrt(rad)*math.sin(deg))
+    # coordinates.append(math.sqrt(r)*math.cos(math.radians(deg)))
+    # coordinates.append(math.sqrt(r)*math.sin(math.radians(deg)))
+    #print(coordinates)
+    positions.append(coordinates)
+    count += 1
 kdtree = spatial.KDTree(positions)
 pairs = kdtree.query_pairs(r)
 G = nx.Graph()
@@ -148,5 +153,6 @@ nx.draw(G,pos)
 adj_list = {}
 writetofile(adj_list, pairs)
 degrees = {}
-smallestLast(nnodes, adj_list,degrees)
+adj_list_copy = copy.deepcopy(adj_list)
+smallestLast(nnodes, adj_list_copy,degrees)
 #degreeCalc(nnodes,adj_list, degrees)
