@@ -21,23 +21,33 @@ def degreeCalc(nnodes, adj_list, degrees):
     #print(minDeg)
     #print(maxDeg)
     while(nnodes):
-        item = next(reversed(orderedDict.items()))
+        if(next(reversed(orderedDict.items()))):
+            item = next(reversed(orderedDict.items()))
         newColor = False
         color = 0
-        for i in range(1,(colorNum+1)):
+        for i in range(1,colorNum):
             #check which color numbers are not its adjacents' colors
-            if(item[0] not in colorsUsed):
+
+            if(item[0] in colorsUsed):
+                print("A")
                 colorsUsed[item[0]] = {}
-                newColor = True
-                break
-            if(i not in colorsUsed[item[0]]):
-                newColor = True
                 color = i
+                newColor = True
                 break
+            else:
+                if(i in colorsUsed[item[0]]):
+                    print("AAA")
+                else:
+                     #found a color that it is not adjacent to
+                    print("*")
+                    newColor = True
+                    color = i
+                    break
         #if all colors are taken by adj vertices
         if(newColor == False):
             colorNum += 1
             color = colorNum
+        newColor = False
         #keep track of number of vertices with that color
         if(color in colorCount):
             colorCount[color] = colorCount[color] + 1
@@ -87,7 +97,7 @@ def writetofile(adj_list,pairs):
     #print(count)
 
 
-file = sys.argv[1]
+file = "blah.txt"
 f = open(file, 'w')
 
 nnodes = 1000
@@ -117,7 +127,7 @@ G = nx.Graph()
 G.add_nodes_from(range(nnodes))
 G.add_edges_from(list(pairs))
 pos = dict(zip(range(nnodes),positions))
-# nx.draw(G,pos)
+nx.draw(G,pos)
 # plt.show()
 adj_list = {}
 writetofile(adj_list, pairs)
