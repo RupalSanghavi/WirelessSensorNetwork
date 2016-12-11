@@ -10,6 +10,18 @@ from collections import OrderedDict
 
 def smallestLast(nnodes, adj_list, degrees):
     print("nothing")
+    orderedDict = OrderedDict(sorted(adj_list.items(), key=lambda t: len(t[1])))
+    sum = 0
+    for key,value in orderedDict.iteritems():
+        degrees[key] = len(value)
+        sum += len(value)
+    print(degrees)
+    calculatedDeg = sum/nnodes
+    print(calculatedDeg)
+    maxDeg = len(next(reversed(orderedDict.items()))[1])
+    minDeg = len(orderedDict.items()[0][1])
+    print(minDeg)
+    print(maxDeg)
 def degreeCalc(nnodes, adj_list, degrees):
     colorCount = {}
     colorsUsed = {}
@@ -103,27 +115,28 @@ def writetofile(adj_list,pairs):
 file = "blah.txt"
 f = open(file, 'w')
 
-nnodes = 1000
-avg_deg = 32
+nnodes = 4000
+avg_deg = 64
 r = math.sqrt((avg_deg)/(nnodes*math.pi))
 #print(r)
 
-#r = 0.15
-#positions =  np.random.rand(nnodes,2)
+#r = 1
 positions = []
+positions =  np.random.rand(nnodes,2)
+
 count = 0
-while (count < nnodes):
-    coordinates = []
-    rad = random.uniform(0,1)
-    deg = random.uniform(0,(2*math.pi))   #generate random degree
-    #print(deg)
-    coordinates.append(math.sqrt(rad)*math.cos(deg))
-    coordinates.append(math.sqrt(rad)*math.sin(deg))
-    # coordinates.append(math.sqrt(r)*math.cos(math.radians(deg)))
-    # coordinates.append(math.sqrt(r)*math.sin(math.radians(deg)))
-    #print(coordinates)
-    positions.append(coordinates)
-    count += 1
+# while (count < nnodes):
+#     coordinates = []
+#     rad = random.uniform(0,1)
+#     deg = random.uniform(0,(2*math.pi))   #generate random degree
+#     #print(deg)
+#     coordinates.append(math.sqrt(rad)*math.cos(deg))
+#     coordinates.append(math.sqrt(rad)*math.sin(deg))
+#     # coordinates.append(math.sqrt(r)*math.cos(math.radians(deg)))
+#     # coordinates.append(math.sqrt(r)*math.sin(math.radians(deg)))
+#     #print(coordinates)
+#     positions.append(coordinates)
+#     count += 1
 kdtree = spatial.KDTree(positions)
 pairs = kdtree.query_pairs(r)
 G = nx.Graph()
@@ -131,8 +144,9 @@ G.add_nodes_from(range(nnodes))
 G.add_edges_from(list(pairs))
 pos = dict(zip(range(nnodes),positions))
 nx.draw(G,pos)
-plt.show()
+#plt.show()
 adj_list = {}
 writetofile(adj_list, pairs)
 degrees = {}
-degreeCalc(nnodes,adj_list, degrees)
+smallestLast(nnodes, adj_list,degrees)
+#degreeCalc(nnodes,adj_list, degrees)
