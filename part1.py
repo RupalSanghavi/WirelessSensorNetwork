@@ -7,9 +7,37 @@ import matplotlib.pyplot as plt
 import sys
 import random
 from collections import OrderedDict
+from pprint import pprint
 
 
 def smallestLast(nnodes, adj_list, degrees):
+    print("nothing")
+    sum = 0
+    for key,value in orderedDict.iteritems():
+        degrees[key] = len(value)
+        sum += len(value)
+    orderedDict = OrderedDict(sorted(degrees.items(), key=lambda t: t[1]))
+    #invert dictionary
+    degreesToVertices = {}
+    for vert,neighbors in degrees.iteritems():
+        #if that vertice is not already in that degree's dict
+        if(degreesToVertices.get(len(neighbors), None) == None):
+            degreesToVertices[len(neighbors)] = {}
+            degreesToVertices[len(neighbors)][vert] = True
+        else:
+            degreesToVertices[len(neighbors)][vert] = True
+    #print(degrees)
+    print(degreesToVertices)
+    calculatedDeg = sum/nnodes
+    print(calculatedDeg)
+    maxDeg = len(next(reversed(orderedDict.items()))[1])
+    minDeg = len(orderedDict.items()[0][1])
+    print(minDeg)
+    print(maxDeg)
+
+
+
+def smallestLastt(nnodes, adj_list, degrees):
     print("nothing")
     orderedDict = OrderedDict(sorted(adj_list.items(), key=lambda t: len(t[1])))
     sum = 0
@@ -23,6 +51,7 @@ def smallestLast(nnodes, adj_list, degrees):
     minDeg = len(orderedDict.items()[0][1])
     print(minDeg)
     print(maxDeg)
+
 
 def degreeCalc(nnodes, adj_list, degrees):
     colorCount = {}
