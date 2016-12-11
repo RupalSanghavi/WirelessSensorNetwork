@@ -10,7 +10,7 @@ from collections import OrderedDict
 from pprint import pprint
 
 
-def smallestLast(nnodes, adj_list, degrees):
+def smallestLastt(nnodes, adj_list, degrees):
     print("nothing")
     sum = 0
     for key,value in orderedDict.iteritems():
@@ -37,20 +37,30 @@ def smallestLast(nnodes, adj_list, degrees):
 
 
 
-def smallestLastt(nnodes, adj_list, degrees):
+def smallestLast(nnodes, adj_list, degrees):
     print("nothing")
     orderedDict = OrderedDict(sorted(adj_list.items(), key=lambda t: len(t[1])))
     sum = 0
     for key,value in orderedDict.iteritems():
         degrees[key] = len(value)
         sum += len(value)
-    #print(degrees)
+    print(degrees)
     calculatedDeg = sum/nnodes
     print(calculatedDeg)
     maxDeg = len(next(reversed(orderedDict.items()))[1])
     minDeg = len(orderedDict.items()[0][1])
     print(minDeg)
     print(maxDeg)
+    degreesToVertices = {}  #key: degree, value: dictionary of vertices with that degree
+    for vert,neighbors in degrees.iteritems():
+        #if that vertice is not already in that degree's dict
+        if(neighbors not in degreesToVertices):
+            degreesToVertices[neighbors] = {}
+            degreesToVertices[neighbors][vert] = True
+        else:
+            degreesToVertices[neighbors][vert] = True
+    #print(degrees)
+    pprint(degreesToVertices)
 
 
 def degreeCalc(nnodes, adj_list, degrees):
@@ -146,8 +156,8 @@ def writetofile(adj_list,pairs):
 file = "blah.txt"
 f = open(file, 'w')
 
-nnodes = 4000
-avg_deg = 64
+nnodes = 1000
+avg_deg = 32
 r = math.sqrt(avg_deg/float(nnodes))  #for disk
 #r = math.sqrt((avg_deg)/(nnodes*math.pi))  #for square
 
