@@ -71,6 +71,10 @@ def smallestLast(nnodes, adj_list, adj_list_copy, degrees):
         currMin = deg
         if(deg in degreesToVertices):
             for vertice in degreesToVertices[deg]:
+                #for purposes of seq coloring plot
+                originalDegrees.append(degrees[vertice])
+                deletedDegrees.append(len(adj_list_copy[vertice]))
+                
                 smallestFirst.append(vertice)
                 #remove it from its neighbors
                 nnodesCopy -= 1
