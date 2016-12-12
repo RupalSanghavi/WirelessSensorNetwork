@@ -64,16 +64,30 @@ def smallestLast(nnodes, adj_list, adj_list_copy, degrees):
     originalDegrees = []
     deletedDegrees = []
     smallestFirst = []
-    print(adj_list_copy)
+    minDegCopy = minDeg
+    nnodesCopy = nnodes
     #iterate through degrees
-    # for deg in range(0,maxDeg):
-    #     if(deg in degreesToVertices):
-    #         for vertice in degreesToVertices[deg]:
-    #             smallestFirst.append(vertice)
-    #             #remove it from its neighbors
-    #             for(neighbor in adj_list_copy[vertice]):
-    #                 del adj_list_copy[vertice]
-
+    for deg in range(0,maxDeg):
+        currMin = deg
+        if(deg in degreesToVertices):
+            for vertice in degreesToVertices[deg]:
+                smallestFirst.append(vertice)
+                #remove it from its neighbors
+                for(neighbor in adj_list_copy[vertice]):
+                    nnodesCopy -= 1
+                    #remove that neighbor from its current degree spot
+                    del degreesToVertices[len(adj_list_copy[vertice][neighbor])][neighbor]
+                    #see if there is a new min
+                    tempMin = len(adj_list_copy[vertice][neighbor])-1
+                    if(tempMin < deg):
+                        deg = tempMin
+                    #add it to the degree spot that is one less
+                    degreesToVertices[tempMin][neighbor] = True
+                    #remove it from its neighbor's list
+                    del adj_list_copy[neighbor][vertice]
+        #check to see if cycle needs to repeat
+        if((deg == (maxDeg - 1)) && (nnodesCopy != 0)):
+            deg = 0
 
 def degreeCalc(nnodes, adj_list, degrees):
     colorCount = {}
