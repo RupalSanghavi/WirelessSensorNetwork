@@ -37,7 +37,7 @@ def smallestLastt(nnodes, adj_list, degrees):
 
 
 
-def smallestLast(nnodes, adj_list, degrees):
+def smallestLast(nnodes, adj_list, adj_list_copy, degrees):
     print("nothing")
     orderedDict = OrderedDict(sorted(adj_list.items(), key=lambda t: len(t[1])))
     sum = 0
@@ -61,6 +61,18 @@ def smallestLast(nnodes, adj_list, degrees):
             degreesToVertices[neighbors][vert] = True
     #print(degrees)
     pprint(degreesToVertices)
+    originalDegrees = []
+    deletedDegrees = []
+    smallestFirst = []
+    print(adj_list_copy)
+    #iterate through degrees
+    # for deg in range(0,maxDeg):
+    #     if(deg in degreesToVertices):
+    #         for vertice in degreesToVertices[deg]:
+    #             smallestFirst.append(vertice)
+    #             #remove it from its neighbors
+    #             for(neighbor in adj_list_copy[vertice]):
+    #                 del adj_list_copy[vertice]
 
 
 def degreeCalc(nnodes, adj_list, degrees):
@@ -193,5 +205,5 @@ adj_list = {}
 writetofile(adj_list, pairs)
 degrees = {}
 adj_list_copy = copy.deepcopy(adj_list)
-smallestLast(nnodes, adj_list_copy,degrees)
+smallestLast(nnodes,adj_list, adj_list_copy,degrees)
 #degreeCalc(nnodes,adj_list, degrees)
