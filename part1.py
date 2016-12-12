@@ -44,7 +44,6 @@ def smallestLast(nnodes, adj_list, adj_list_copy, degrees):
     for key,value in orderedDict.iteritems():
         degrees[key] = len(value)
         sum += len(value)
-    print(degrees)
     calculatedDeg = sum/nnodes
     print(calculatedDeg)
     maxDeg = len(next(reversed(orderedDict.items()))[1])
@@ -61,6 +60,7 @@ def smallestLast(nnodes, adj_list, adj_list_copy, degrees):
             degreesToVertices[neighbors][vert] = True
     #print(degrees)
     pprint(degreesToVertices)
+    #print(adj_list)
     originalDegrees = []
     deletedDegrees = []
     smallestFirst = []
@@ -73,21 +73,31 @@ def smallestLast(nnodes, adj_list, adj_list_copy, degrees):
             for vertice in degreesToVertices[deg]:
                 smallestFirst.append(vertice)
                 #remove it from its neighbors
-                for(neighbor in adj_list_copy[vertice]):
+                for neighbor in adj_list_copy[vertice]:
                     nnodesCopy -= 1
                     #remove that neighbor from its current degree spot
-                    del degreesToVertices[len(adj_list_copy[vertice][neighbor])][neighbor]
+                    del degreesToVertices[degrees[neighbor]][neighbor]
+                    #del degreesToVertices[len(adj_list_copy[vertice][neighbor])][neighbor]
+
+                    tempMin = degrees[neighbor]
+                    #tempMin = len(adj_list_copy[vertice][neighbor])-1
                     #see if there is a new min
-                    tempMin = len(adj_list_copy[vertice][neighbor])-1
                     if(tempMin < deg):
                         deg = tempMin
                     #add it to the degree spot that is one less
                     degreesToVertices[tempMin][neighbor] = True
+
+                    # print(vertice)
+                    # print(adj_list[vertice])
+                    # print(neighbor)
+                    # print(adj_list[neighbor])
+
                     #remove it from its neighbor's list
-                    del adj_list_copy[neighbor][vertice]
+                    del adj_list[neighbor][vertice]
         #check to see if cycle needs to repeat
-        if((deg == (maxDeg - 1)) && (nnodesCopy != 0)):
+        if((deg == (maxDeg - 1)) and (nnodesCopy != 0)):
             deg = 0
+    print(smallestFirst)
 
 def degreeCalc(nnodes, adj_list, degrees):
     colorCount = {}
@@ -159,23 +169,29 @@ def degreeCalc(nnodes, adj_list, degrees):
     #for key in adj_list:
 
 def writetofile(adj_list,pairs):
-
     for i in pairs:
-        adj_list.setdefault(i[0], []) #create list for values
-        adj_list.setdefault(i[1], []) #create list for values
-        adj_list[i[0]].append(i[1])
-        adj_list[i[1]].append(i[0])
+        if i[0] not in adj_list:
+            adj_list[i[0]] = {} #create list for values
+        if i[1] not in adj_list:
+            adj_list[i[1]] = {} #create list for values
+        adj_list[i[0]][i[1]] = True
+        adj_list[i[1]][i[0]] = True
+    # for i in pairs:
+    #     adj_list.setdefault(i[0], []) #create list for values
+    #     adj_list.setdefault(i[1], []) #create list for values
+    #     adj_list[i[0]].append(i[1])
+    #     adj_list[i[1]].append(i[0])
     count = 0
-    for key, val in adj_list.items():
-        count += 1
-        #print key, val
-        for p in pos[key]:
-            f.write(str(p) + " ") #write x and y of center vertice
-        for p in val:               #write x and y of adjacent vertices
-            for q in pos[p]:
-                f.write(str(q) + " ")
-        f.write('S' + '\n')
-    f.close()
+    # for key, val in adj_list.items():
+    #     count += 1
+    #     #print key, val
+    #     for p in pos[key]:
+    #         f.write(str(p) + " ") #write x and y of center vertice
+    #     for p in val:               #write x and y of adjacent vertices
+    #         for q in pos[p]:
+    #             f.write(str(q) + " ")
+    #     f.write('S' + '\n')
+    # f.close()
     #print(count)
 
 
