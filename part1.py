@@ -73,8 +73,8 @@ def smallestLast(nnodes, adj_list, adj_list_copy, degrees):
             for vertice in degreesToVertices[deg]:
                 smallestFirst.append(vertice)
                 #remove it from its neighbors
+                nnodesCopy -= 1
                 for neighbor in adj_list_copy[vertice]:
-                    nnodesCopy -= 1
                     #remove that neighbor from its current degree spot
                     del degreesToVertices[degrees[neighbor]][neighbor]
                     #del degreesToVertices[len(adj_list_copy[vertice][neighbor])][neighbor]
@@ -93,7 +93,7 @@ def smallestLast(nnodes, adj_list, adj_list_copy, degrees):
                     # print(adj_list[neighbor])
 
                     #remove it from its neighbor's list
-                    del adj_list[neighbor][vertice]
+                    del adj_list_copy[neighbor][vertice]
         #check to see if cycle needs to repeat
         if((deg == (maxDeg - 1)) and (nnodesCopy != 0)):
             deg = 0
