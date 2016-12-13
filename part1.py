@@ -297,6 +297,7 @@ def color(adj_list, smallestFirst, colorClassSizes, parallelColors, colorToVert)
     colors = len(colorToVert)
     max_key = max(colorToVert, key= lambda x: len(set(colorToVert[x])))
     maxColorClassSize = len(colorToVert[max_key])
+    print("MAX COLOR CLASS SIZE: " + str(maxColorClassSize))
         # for y in vertToColor[x]:
         #     print(, ":", vertToColor[x])
     #get each colors set size
@@ -311,21 +312,49 @@ def color(adj_list, smallestFirst, colorClassSizes, parallelColors, colorToVert)
     parallelColors = list(parallelColors)
     colorClassSizes = list(reversed(colorClassSizes))
     parallelColors = list(reversed(parallelColors))
-    print("length: " + str(len(colorClassSizes)))
-    print(colors)
-    plt.gcf().clear()
-    #barlist = plt.bar(np.array(range(0,colors+1)),np.array(range(0,maxColorClassSize+1)))
-    barlist = plt.bar(np.array(range(0,colors)),np.array(colorClassSizes))
-    for i in range(0,len(colorClassSizes)):
-        barlist[i].set_color(parallelColors[i])
-    #plt.show()
+    # print("length: " + str(len(colorClassSizes)))
+    # print(colors)
 
-def createBipartiteGraphs():
+    # plt.gcf().clear()
+    # barlist = plt.bar(np.array(range(0,colors)),np.array(colorClassSizes))
+    # for i in range(0,len(colorClassSizes)):
+    #     barlist[i].set_color(parallelColors[i])
+    # plt.show()
+
+def createBipartiteGraphs(G, pos, pairs, adj_list, smallestFirst, colorClassSizes, parallelColors, colorToVert):
     #for 6 diff combos using top 4 colors
     color1 = [0,0,0,1,1,2]
     color2 = [1,2,3,2,3,3]
-    # for i in range(0,len(color1)):
+    colorClassSizes, parallelColors = zip(*sorted(zip(colorClassSizes,parallelColors)))
+    colorClassSizes = list(colorClassSizes)
+    parallelColors = list(parallelColors)
+    colorClassSizes = list(reversed(colorClassSizes))
+    print("MAX COLOR CLASS SIZE 2: " + str(colorClassSizes[0]))
+    parallelColors = list(reversed(parallelColors))
+    for i in range(0,len(color1)):
+    #for i in range(0,1):
+        plt.gcf().clear()
+        # nx.draw_networkx_nodes(G,pos,nodelist=colorToVert[parallelColors[color1[i]]], node_color=parallelColors[color1[i]], node_size=20, alpha=0.8)
+        # nx.draw_networkx_nodes(G,pos,nodelist=colorToVert[parallelColors[color2[i]]], node_color=parallelColors[color2[i]], node_size=20, alpha=0.8)
+        # #G.add_edges_from(list(pairs))
+        #nx.draw_networkx_edges(G,pos,edgelist=list(pairs), width = 0.5, alpha =0.5, edge_color='b')
+        print(len(colorToVert[parallelColors[color1[i]]] + colorToVert[parallelColors[color2[i]]]))
+        H = G.subgraph(colorToVert[parallelColors[color1[i]]] + colorToVert[parallelColors[color2[i]]])
+        print("Edges: " + str(len(H.edges())))
+        nx.draw_networkx_edges(H,pos,edgelist=H.edges(), width = 0.5, alpha =0.5, edge_color='b')
+        #nx.draw(H,pos=pos,node_color=)
 
+        # H.add_nodes_from(colorToVert[parallelColors[color1[i]]],node_color=parallelColors[color1[i]], node_size=20, alpha=0.8)
+        # H.add_nodes_from(colorToVert[parallelColors[color2[i]]],node_color=parallelColors[color2[i]], node_size=20, alpha=0.8)
+        # #nx.draw_networkx_nodes(G,pos,nodelist=colorToVert[parallelColors[color1[i]]], node_color=parallelColors[color1[i]], node_size=20, alpha=0.8)
+        #nx.draw_networkx_nodes(G,pos,nodelist=colorToVert[parallelColors[color2[i]]], node_color=parallelColors[color2[i]], node_size=20, alpha=0.8)
+
+
+        plt.show()
+
+    # for color in colorToVert:
+    #     nx.draw_networkx_nodes(G,pos,nodelist=colorToVert[color], node_color=color, node_size=20, alpha=0.8)
+    #     nx.draw_networkx_edges(G,pos,edgelist=list(pairs), width = 0.5, alpha =0.5, edge_color='b')
 
     #else generate a new color, add to colorToVert and vertToColor
 def writetofile(adj_list,pairs):
@@ -358,7 +387,7 @@ def writetofile(adj_list,pairs):
 file = "blah.txt"
 f = open(file, 'w')
 
-nnodes = 1000
+nnodes = 4000
 avg_deg = 32
 #r = math.sqrt(avg_deg/float(nnodes))  #for disk
 r = math.sqrt((avg_deg)/(nnodes*math.pi))  #for square
@@ -385,12 +414,14 @@ count = 0
 #     count += 1
 kdtree = spatial.KDTree(positions)
 pairs = kdtree.query_pairs(r)
+print("GRAPH EDGES: "+ str(len(pairs)) )
 G = nx.Graph()
 G.add_nodes_from(range(nnodes))
 G.add_edges_from(list(pairs))
+
 pos = dict(zip(range(nnodes),positions))
-#nx.draw(G,pos)
-#plt.show()
+# nx.draw(G,pos)
+# plt.show()
 
 adj_list = {}
 writetofile(adj_list, pairs)
@@ -402,10 +433,12 @@ colorClassSizes = []
 parallelColors = []
 colorToVert = {}
 color(adj_list, smallestFirst, colorClassSizes, parallelColors, colorToVert)
-plt.gcf().clear()
-for color in colorToVert:
-    nx.draw_networkx_nodes(G,pos,nodelist=colorToVert[color], node_color=color, node_size=20, alpha=0.8)
-#G.add_edges_from(list(pairs))
-nx.draw_networkx_edges(G,pos,edgelist=list(pairs), width = 0.5, alpha =0.5, edge_color='b')
-plt.show()
+# plt.gcf().clear()
+# for color in colorToVert:
+#     nx.draw_networkx_nodes(G,pos,nodelist=colorToVert[color], node_color=color, node_size=20, alpha=0.8)
+# #G.add_edges_from(list(pairs))
+# nx.draw_networkx_edges(G,pos,edgelist=list(pairs), width = 0.5, alpha =0.5, edge_color='b')
+# plt.show()
+createBipartiteGraphs(G, pos, pairs, adj_list, smallestFirst, colorClassSizes, parallelColors, colorToVert)
+
 #degreeCalc(nnodes,adj_list, degrees)
