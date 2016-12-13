@@ -305,6 +305,12 @@ def color(adj_list, smallestFirst):
     for color in colorToVert:
         colorClassSizes.append(len(colorToVert[color]))
         parallelColors.append(color)
+    #sort lists
+    colorClassSizes, parallelColors = zip(*sorted(zip(colorClassSizes,parallelColors)))
+    colorClassSizes = list(colorClassSizes)
+    parallelColors = list(parallelColors)
+    colorClassSizes = list(reversed(colorClassSizes))
+    parallelColors = list(reversed(parallelColors))
     print("length: " + str(len(colorClassSizes)))
     print(colors)
     plt.gcf().clear()
