@@ -351,7 +351,12 @@ def createBipartiteGraphs(G, pos, pairs, adj_list, smallestFirst, colorClassSize
             if keep == True:
                 bipartitePairs.add(tuple)
 
-        print(bipartitePairs)
+        #print(bipartitePairs)
+        plt.gcf().clear()
+        nx.draw_networkx_nodes(G,pos,nodelist=colorToVert[parallelColors[color1[i]]], node_color=parallelColors[color1[i]], node_size=20, alpha=0.8)
+        nx.draw_networkx_nodes(G,pos,nodelist=colorToVert[parallelColors[color2[i]]], node_color=parallelColors[color2[i]], node_size=20, alpha=0.8)
+        G.add_edges_from(list(bipartitePairs))
+        plt.show()
 
     #for i in range(0,len(color1)):
 
