@@ -405,6 +405,7 @@ color(adj_list, smallestFirst, colorClassSizes, parallelColors, colorToVert)
 plt.gcf().clear()
 for color in colorToVert:
     nx.draw_networkx_nodes(G,pos,nodelist=colorToVert[color], node_color=color, node_size=20, alpha=0.8)
-G.add_edges_from(list(pairs))
+#G.add_edges_from(list(pairs))
+nx.draw_networkx_edges(G,pos,edgelist=list(pairs), width = 0.5, alpha =0.5, edge_color='b')
 plt.show()
 #degreeCalc(nnodes,adj_list, degrees)
