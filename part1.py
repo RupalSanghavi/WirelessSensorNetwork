@@ -245,10 +245,10 @@ def degreeCalc(nnodes, adj_list, degrees):
     print("hi")
     #for key in adj_list:
 
-def color(adj_list, smallestFirst):
+def color(adj_list, smallestFirst, colorClassSizes, parallelColors, colorToVert):
     print("yoo")
     #colorToVert hashmap (float,  key: color code, value: vertices with that color
-    colorToVert = {}
+
     #vertToColor hashmap (int, [float, dict of neighbor's colors]): key: vertice, value: tuple of color code, neighbor's colors
             ##vertToNeighborsColors (int, list of colors): key: vertice, value: neighbor's colors
     vertToColor = {}
@@ -300,8 +300,8 @@ def color(adj_list, smallestFirst):
         # for y in vertToColor[x]:
         #     print(, ":", vertToColor[x])
     #get each colors set size
-    colorClassSizes = []
-    parallelColors = []
+    # colorClassSizes = []
+    # parallelColors = []
     for color in colorToVert:
         colorClassSizes.append(len(colorToVert[color]))
         parallelColors.append(color)
@@ -318,7 +318,13 @@ def color(adj_list, smallestFirst):
     barlist = plt.bar(np.array(range(0,colors)),np.array(colorClassSizes))
     for i in range(0,len(colorClassSizes)):
         barlist[i].set_color(parallelColors[i])
-    plt.show()
+    #plt.show()
+
+def createBipartiteGraphs():
+    #for 6 diff combos using top 4 colors
+    color1 = [0,0,0,1,1,2]
+    color2 = [1,2,3,2,3,3]
+    # for i in range(0,len(color1)):
 
 
     #else generate a new color, add to colorToVert and vertToColor
@@ -385,11 +391,20 @@ G.add_edges_from(list(pairs))
 pos = dict(zip(range(nnodes),positions))
 #nx.draw(G,pos)
 #plt.show()
+
 adj_list = {}
 writetofile(adj_list, pairs)
 degrees = {}
 adj_list_copy = copy.deepcopy(adj_list)
 smallestFirst = []
 smallestLast(nnodes,adj_list, adj_list_copy,degrees, smallestFirst)
-color(adj_list, smallestFirst)
+colorClassSizes = []
+parallelColors = []
+colorToVert = {}
+color(adj_list, smallestFirst, colorClassSizes, parallelColors, colorToVert)
+plt.gcf().clear()
+for color in colorToVert:
+    nx.draw_networkx_nodes(G,pos,nodelist=colorToVert[color], node_color=color, node_size=20, alpha=0.8)
+G.add_edges_from(list(pairs))
+plt.show()
 #degreeCalc(nnodes,adj_list, degrees)
