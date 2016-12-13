@@ -301,13 +301,17 @@ def color(adj_list, smallestFirst):
         #     print(, ":", vertToColor[x])
     #get each colors set size
     colorClassSizes = []
+    parallelColors = []
     for color in colorToVert:
         colorClassSizes.append(len(colorToVert[color]))
+        parallelColors.append(color)
     print("length: " + str(len(colorClassSizes)))
     print(colors)
     plt.gcf().clear()
     #barlist = plt.bar(np.array(range(0,colors+1)),np.array(range(0,maxColorClassSize+1)))
     barlist = plt.bar(np.array(range(0,colors)),np.array(colorClassSizes))
+    for i in range(0,len(colorClassSizes)):
+        barlist[i].set_color(parallelColors[i])
     plt.show()
 
     #else generate a new color, add to colorToVert and vertToColor
