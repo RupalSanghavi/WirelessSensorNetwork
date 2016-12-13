@@ -356,9 +356,8 @@ def createBipartiteGraphs(G, pos, pairs, adj_list, smallestFirst, colorClassSize
     colorClassSizes = list(reversed(colorClassSizes))
     print("MAX COLOR CLASS SIZE 2: " + str(colorClassSizes[0]))
     parallelColors = list(reversed(parallelColors))
-    for i in range(0,2):
+    for i in range(0,len(color1)):
         bipartitePairs = set()
-
         for pair in pairs:
             tuple = ()
             keep = False
@@ -367,13 +366,32 @@ def createBipartiteGraphs(G, pos, pairs, adj_list, smallestFirst, colorClassSize
                     tuple = (pair[0], pair[1])
                     #bipartitePairs[pair[0]] = pair[1]
                     keep = True
-            elif pair[1] in colorToVert[parallelColors[color2[i]]]:
-                 if pair[0] in colorToVert[parallelColors[color1[i]]]:
+                    bipartitePairs.add(tuple)
+            elif pair[1] in colorToVert[parallelColors[color1[i]]]:
+                 if pair[0] in colorToVert[parallelColors[color2[i]]]:
                      tuple = (pair[1], pair[0])
-                     bipartitePairs[pair[1]] = pair[0]
+                     #bipartitePairs[pair[1]] = pair[0]
                      keep = True
-            if keep == True:
-                bipartitePairs.add(tuple)
+                     bipartitePairs.add(tuple)
+        # for pair in pairs:
+        #     tuple = ()
+        #     keep = False
+        #     if pair[0] in colorToVert[parallelColors[color1[i]]]:
+        #         if pair[1] in colorToVert[parallelColors[color2[i]]]:
+        #             tuple = (pair[0], pair[1])
+        #             #bipartitePairs[pair[0]] = pair[1]
+        #             keep = True
+        #             bipartitePairs.add(tuple)
+        #     elif pair[1] in colorToVert[parallelColors[color2[i]]]:
+        #          if pair[0] in colorToVert[parallelColors[color1[i]]]:
+        #              tuple = (pair[1], pair[0])
+        #              bipartitePairs[pair[1]] = pair[0]
+        #              keep = True
+        #              bipartitePairs.add(tuple)
+            # else:
+            #
+            # if keep == True:
+            #     bipartitePairs.add(tuple)
 
         #print(bipartitePairs)
         plt.gcf().clear()
