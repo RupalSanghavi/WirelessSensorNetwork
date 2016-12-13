@@ -320,6 +320,7 @@ def color(adj_list, smallestFirst):
         barlist[i].set_color(parallelColors[i])
     plt.show()
 
+
     #else generate a new color, add to colorToVert and vertToColor
 def writetofile(adj_list,pairs):
     for i in pairs:
