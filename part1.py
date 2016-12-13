@@ -44,15 +44,18 @@ def smallestLast(nnodes, adj_list, adj_list_copy, degrees, smallestFirst):
     print("nothing")
     orderedDict = OrderedDict(sorted(adj_list.items(), key=lambda t: len(t[1])))
     sum = 0
+    degreesList = []
+    degreesToNumVertices = []
     for key,value in orderedDict.iteritems():
         degrees[key] = len(value)
         sum += len(value)
+
     calculatedDeg = sum/nnodes
-    print(calculatedDeg)
+    print("AVERAGE DEGREE: " + str(calculatedDeg))
     maxDeg = len(next(reversed(orderedDict.items()))[1])
     minDeg = len(orderedDict.items()[0][1])
-    print(minDeg)
-    print(maxDeg)
+    print("MIN DEGREE: "+ str(minDeg))
+    print("MAX DEGREE: "+ str(maxDeg))
     degreesToVertices = {}  #key: degree, value: dictionary of vertices with that degree
     for vert,neighbors in degrees.iteritems():
         #if that vertice is not already in that degree's dict
@@ -61,6 +64,21 @@ def smallestLast(nnodes, adj_list, adj_list_copy, degrees, smallestFirst):
             degreesToVertices[neighbors][vert] = True
         else:
             degreesToVertices[neighbors][vert] = True
+
+    for degree in degreesToVertices:
+        degreesList.append(degree)
+        degreesToNumVertices.append(len(degreesToVertices[degree]))
+
+    degreesList, degreesToNumVertices = zip(*sorted(zip(degreesList,degreesToNumVertices)))
+     #DEGREE DISTRIBUTION PLOT
+    x = np.array(degreesList)
+    y = np.array(degreesToNumVertices)
+    plt.gcf().clear()
+    barlist = plt.bar(x,y)
+    # for i in range(0,len(colorClassSizes)):
+    #     barlist[i].set_color(parallelColors[i])
+    plt.show()
+
     #print(degrees)
     #pprint(degreesToVertices)
     #print(adj_list)
@@ -131,7 +149,7 @@ def smallestLast(nnodes, adj_list, adj_list_copy, degrees, smallestFirst):
 
     #iterate through degrees
     for deg in range(0,maxDeg+1):
-        print(deg, nnodesCopy)
+        #print(deg, nnodesCopy)
         flag = False
         currMin = deg
         if(deg in degreesToVertices):
@@ -175,6 +193,8 @@ def smallestLast(nnodes, adj_list, adj_list_copy, degrees, smallestFirst):
     # plt.plot(y, x1)
     # plt.plot(y, x2)
     # plt.show()
+
+
 
 def degreeCalc(nnodes, adj_list, degrees):
     colorCount = {}
@@ -246,13 +266,16 @@ def degreeCalc(nnodes, adj_list, degrees):
     #for key in adj_list:
 
 def color(adj_list, smallestFirst, colorClassSizes, parallelColors, colorToVert):
-    print("yoo")
+
+
+
     #colorToVert hashmap (float,  key: color code, value: vertices with that color
 
     #vertToColor hashmap (int, [float, dict of neighbor's colors]): key: vertice, value: tuple of color code, neighbor's colors
             ##vertToNeighborsColors (int, list of colors): key: vertice, value: neighbor's colors
     vertToColor = {}
     neighborsColors = {} #key: vertice, value: neighbor's colors
+    smallestFirst = list(reversed(smallestFirst))
     for vert in adj_list:
         neighborsColors[vert] = {}
     for vert in smallestFirst:
@@ -313,13 +336,13 @@ def color(adj_list, smallestFirst, colorClassSizes, parallelColors, colorToVert)
     colorClassSizes = list(reversed(colorClassSizes))
     parallelColors = list(reversed(parallelColors))
     # print("length: " + str(len(colorClassSizes)))
-    # print(colors)
+    print(colors)
 
-    # plt.gcf().clear()
-    # barlist = plt.bar(np.array(range(0,colors)),np.array(colorClassSizes))
-    # for i in range(0,len(colorClassSizes)):
-    #     barlist[i].set_color(parallelColors[i])
-    # plt.show()
+    plt.gcf().clear()
+    barlist = plt.bar(np.array(range(0,colors)),np.array(colorClassSizes))
+    for i in range(0,len(colorClassSizes)):
+        barlist[i].set_color(parallelColors[i])
+    plt.show()
 
 def createBipartiteGraphs(G, pos, pairs, adj_list, smallestFirst, colorClassSizes, parallelColors, colorToVert):
 
@@ -333,7 +356,7 @@ def createBipartiteGraphs(G, pos, pairs, adj_list, smallestFirst, colorClassSize
     colorClassSizes = list(reversed(colorClassSizes))
     print("MAX COLOR CLASS SIZE 2: " + str(colorClassSizes[0]))
     parallelColors = list(reversed(parallelColors))
-    for i in range(0,len(color1)):
+    for i in range(0,2):
         bipartitePairs = set()
 
         for pair in pairs:
@@ -359,7 +382,7 @@ def createBipartiteGraphs(G, pos, pairs, adj_list, smallestFirst, colorClassSize
         nx.draw_networkx_edges(G,pos,edgelist=list(bipartitePairs), width = 0.5, alpha =0.5, edge_color='b')
         print("2 Color Class Sizes Total: " + str(len(colorToVert[parallelColors[color1[i]]] + colorToVert[parallelColors[color2[i]]])))
         print("Edges: " + str(len(bipartitePairs)))
-        #plt.show()
+        plt.show()
 
     #for i in range(0,len(color1)):
 
@@ -451,9 +474,9 @@ count = 0
 #     positions.append(coordinates)
 #     count += 1
 kdtree = spatial.KDTree(positions)
-print("KDTREE: ")
+#print("KDTREE: ")
 pairs = kdtree.query_pairs(r)
-print("PAIRS: ")
+#print("PAIRS: ")
 #print(pairs)
 print("GRAPH EDGES: "+ str(len(pairs)) )
 G = nx.Graph()
