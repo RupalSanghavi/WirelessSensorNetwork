@@ -322,7 +322,8 @@ def color(adj_list, smallestFirst, colorClassSizes, parallelColors, colorToVert)
     # plt.show()
 
 def createBipartiteGraphs(G, pos, pairs, adj_list, smallestFirst, colorClassSizes, parallelColors, colorToVert):
-    bipartitePairs = set()
+
+    #bipartiteVertices
     #for 6 diff combos using top 4 colors
     color1 = [0,0,0,1,1,2]
     color2 = [1,2,3,2,3,3]
@@ -332,8 +333,8 @@ def createBipartiteGraphs(G, pos, pairs, adj_list, smallestFirst, colorClassSize
     colorClassSizes = list(reversed(colorClassSizes))
     print("MAX COLOR CLASS SIZE 2: " + str(colorClassSizes[0]))
     parallelColors = list(reversed(parallelColors))
-    for i in range(0,1):
-
+    for i in range(0,len(color1)):
+        bipartitePairs = set()
 
         for pair in pairs:
             tuple = ()
@@ -355,8 +356,10 @@ def createBipartiteGraphs(G, pos, pairs, adj_list, smallestFirst, colorClassSize
         plt.gcf().clear()
         nx.draw_networkx_nodes(G,pos,nodelist=colorToVert[parallelColors[color1[i]]], node_color=parallelColors[color1[i]], node_size=20, alpha=0.8)
         nx.draw_networkx_nodes(G,pos,nodelist=colorToVert[parallelColors[color2[i]]], node_color=parallelColors[color2[i]], node_size=20, alpha=0.8)
-        G.add_edges_from(list(bipartitePairs))
-        plt.show()
+        nx.draw_networkx_edges(G,pos,edgelist=list(bipartitePairs), width = 0.5, alpha =0.5, edge_color='b')
+        print("2 Color Class Sizes Total: " + str(len(colorToVert[parallelColors[color1[i]]] + colorToVert[parallelColors[color2[i]]])))
+        print("Edges: " + str(len(bipartitePairs)))
+        #plt.show()
 
     #for i in range(0,len(color1)):
 
@@ -422,7 +425,7 @@ file = "blah.txt"
 f = open(file, 'w')
 
 nnodes = 4000
-avg_deg = 32
+avg_deg = 40
 #r = math.sqrt(avg_deg/float(nnodes))  #for disk
 r = math.sqrt((avg_deg)/(nnodes*math.pi))  #for square
 
