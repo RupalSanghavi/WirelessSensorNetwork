@@ -739,6 +739,7 @@ for vert in minDeg:
     nx.draw_networkx_edges(G,pos,edgelist=list(minPairs), width = 0.9, alpha =0.8, edge_color='black')
 
 plt.show()
+plt.gcf().clear()
 nx.draw_networkx_nodes(G,pos,nodelist=range(nnodes),node_color='r',node_size=20,alpha=0.8)
 nx.draw_networkx_edges(G,pos,edgelist=list(pairs),width=0.5,alpha=0.5,edge_color='b')
 plt.show()
