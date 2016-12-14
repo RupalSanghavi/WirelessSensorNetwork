@@ -738,6 +738,10 @@ for vert in minDeg:
         minPairs.add((vert,neighbor))
     nx.draw_networkx_edges(G,pos,edgelist=list(minPairs), width = 0.9, alpha =0.8, edge_color='black')
 
+plt.show()
+nx.draw_networkx_nodes(G,pos,nodelist=range(nnodes),node_color='r',node_size=20,alpha=0.8)
+nx.draw_networkx_edges(G,pos,edgelist=list(pairs),width=0.5,alpha=0.5,edge_color='b')
+plt.show()
 #nx.draw_networkx_edges(G,pos,edgelist=list(pairs), width = 0.5, alpha =0.5, edge_color='b')
 
 # for i in adj_list:
@@ -759,7 +763,7 @@ for vert in minDeg:
 
 #G.add_edges_from(list(pairs))
 #nx.draw(G,pos)
-plt.show()
+
 
 
 # plt.gcf().clear()
