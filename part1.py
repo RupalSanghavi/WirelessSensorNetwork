@@ -460,21 +460,21 @@ def createBipartiteGraphs(G, pos, pairs, adj_list, smallestFirst, colorClassSize
         print("AVERAGE DEGREE: " + str(calculatedDeg))
 
         plt.gcf().clear()
-        nx.draw_networkx_nodes(G,pos,nodelist=visited,node_color=visitedColors,node_size=20, alpha=0.8)
-        nx.draw_networkx_edges(G,pos,edgelist=list(backbonePairs),width=0.5,alpha=0.5,edge_color='b')
+        nx.draw_networkx_nodes(G,pos,nodelist=visited,node_color=visitedColors,node_size=60, alpha=0.8)
+        nx.draw_networkx_edges(G,pos,edgelist=list(backbonePairs),width=2.0,alpha=0.9,edge_color='black')
         plt.show()
 
         #see if it is one of the largest backbones
-        if(maxEdges > mostEdges):
-            mostOptimalColors.append(color1[j])
-            mostOptimalColors.append(color2[j])
-            bestBackboneVertex = bestStartingVertex
-            # bestBipartitePairs = backbonePairs
-            #bestSubgraphAdjList = subgraphAdjList
-        elif(maxEdges > secondMostEdges):
-            secondMostOptimalColors.append(color1[j])
-            secondMostOptimalColors.append(color2[j])
-            secondBestBackboneVertex = bestStartingVertex
+        # if(maxEdges > mostEdges):
+        #     mostOptimalColors.append(color1[j])
+        #     mostOptimalColors.append(color2[j])
+        #     bestBackboneVertex = bestStartingVertex
+        #     # bestBipartitePairs = backbonePairs
+        #     #bestSubgraphAdjList = subgraphAdjList
+        # elif(maxEdges > secondMostEdges):
+        #     secondMostOptimalColors.append(color1[j])
+        #     secondMostOptimalColors.append(color2[j])
+        #     secondBestBackboneVertex = bestStartingVertex
             # secondBestBipartitePairs = backbonePairs
             #secondBestSubgraphAdjList = subgraphAdjList
 
@@ -658,8 +658,8 @@ def writetofile(adj_list,pairs):
 file = "blah.txt"
 f = open(file, 'w')
 
-nnodes = 1000
-avg_deg = 32
+nnodes = 64000
+avg_deg = 64
 #r = math.sqrt(avg_deg/float(nnodes))  #for disk
 r = math.sqrt((avg_deg)/(nnodes*math.pi))  #for square
 
@@ -721,10 +721,10 @@ vertToColor = {}
 
 color(adj_list, smallestFirst, colorClassSizes, parallelColors, colorToVert, vertToColor)
 
-nx.draw_networkx_nodes(G,pos,nodelist=range(nnodes),node_color='r',node_size=20,alpha=0.4)
+nx.draw_networkx_nodes(G,pos,nodelist=range(nnodes),node_color='r',node_size=20,alpha=0.1)
 print(maxDeg)
-nx.draw_networkx_nodes(G,pos,nodelist=maxDeg,node_color='yellow',node_size=100, alpha=0.8)
-nx.draw_networkx_nodes(G,pos,nodelist=minDeg,node_color='black',node_size=100, alpha=0.8)
+nx.draw_networkx_nodes(G,pos,nodelist=maxDeg,node_color='yellow',node_size=50, alpha=0.8)
+nx.draw_networkx_nodes(G,pos,nodelist=minDeg,node_color='black',node_size=50, alpha=0.8)
 
 
 for vert in maxDeg:
@@ -736,12 +736,12 @@ for vert in minDeg:
     minPairs = set()
     for neighbor in adj_list[vert]:
         minPairs.add((vert,neighbor))
-    nx.draw_networkx_edges(G,pos,edgelist=list(minPairs), width = 0.9, alpha =0.8, edge_color='black')
+    nx.draw_networkx_edges(G,pos,edgelist=list(minPairs), width = 0.9, alpha =1.0, edge_color='black')
 
 plt.show()
 plt.gcf().clear()
-nx.draw_networkx_nodes(G,pos,nodelist=range(nnodes),node_color='r',node_size=20,alpha=0.8)
-nx.draw_networkx_edges(G,pos,edgelist=list(pairs),width=0.5,alpha=0.5,edge_color='b')
+nx.draw_networkx_nodes(G,pos,nodelist=range(nnodes),node_color='r',node_size=20,alpha=0.5)
+nx.draw_networkx_edges(G,pos,edgelist=list(pairs),width=0.4,alpha=0.8,edge_color='black')
 plt.show()
 #nx.draw_networkx_edges(G,pos,edgelist=list(pairs), width = 0.5, alpha =0.5, edge_color='b')
 
