@@ -167,6 +167,8 @@ def smallestLast(nnodes, adj_list, adj_list_copy, degrees, smallestFirst, minDeg
                 smallestFirst.append(vertice)
                 #remove it from its neighbors
                 nnodesCopy -= 1
+                if(nnodesCopy == deg):
+                    print("Terminal Clique Size: " + str(nnodesCopy))
                 for neighbor in adj_list_copy[vertice]:
                     #remove that neighbor from its current degree spot
                     del degreesToVertices[degrees[neighbor]][neighbor]
@@ -446,6 +448,15 @@ def createBipartiteGraphs(G, pos, pairs, adj_list, smallestFirst, colorClassSize
         visitedColors = []
         for vertex in visited:
             visitedColors.append(vertToColor[vertex])
+        print("Nodes in Backbone: "+ str(len(visited)))
+        print("% Domination: " + str(len(visited)/float(nnodes)))
+        sum = 0
+        for node in visited:
+            sum += len(subgraphAdjList[node])
+
+        calculatedDeg = sum/float(len(visited))
+        print("AVERAGE DEGREE: " + str(calculatedDeg))
+
         plt.gcf().clear()
         nx.draw_networkx_nodes(G,pos,nodelist=visited,node_color=visitedColors,node_size=20, alpha=0.8)
         nx.draw_networkx_edges(G,pos,edgelist=list(backbonePairs),width=0.5,alpha=0.5,edge_color='b')
@@ -645,7 +656,7 @@ file = "blah.txt"
 f = open(file, 'w')
 
 nnodes = 4000
-avg_deg = 32
+avg_deg = 60
 #r = math.sqrt(avg_deg/float(nnodes))  #for disk
 r = math.sqrt((avg_deg)/(nnodes*math.pi))  #for square
 
@@ -716,7 +727,7 @@ plt.show()
 # nx.draw_networkx_edges(G,pos,edgelist=list(pairs), width = 0.5, alpha =0.5, edge_color='b')
 # plt.show()
 
-#createBipartiteGraphs(G, pos, pairs, adj_list, smallestFirst, colorClassSizes, parallelColors, colorToVert, vertToColor)
+createBipartiteGraphs(G, pos, pairs, adj_list, smallestFirst, colorClassSizes, parallelColors, colorToVert, vertToColor)
 end = time.time()
 print("Time Taken: " + str(end-start))
 #degreeCalc(nnodes,adj_list, degrees)
