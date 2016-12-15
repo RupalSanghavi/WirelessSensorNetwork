@@ -424,7 +424,7 @@ def createBipartiteGraphs(G, pos, pairs, adj_list, smallestFirst, colorClassSize
                     if neighbor not in visited:
                         visited[neighbor] = True
                         vertQueue.append(neighbor)
-                    edges += 1
+                        edges += 1
             if edges > maxEdges:
                 bestStartingVertex = vertex
                 maxEdges = edges
@@ -660,6 +660,7 @@ f = open(file, 'w')
 
 nnodes = 64000
 avg_deg = 64
+
 #r = math.sqrt(avg_deg/float(nnodes))  #for disk
 r = math.sqrt((avg_deg)/(nnodes*math.pi))  #for square
 
@@ -672,7 +673,7 @@ positions =  np.random.rand(nnodes,2)
 print("POSITIONS:")
 
 count = 0
-# while (count < nnodes):
+#while (count < nnodes):
 #     coordinates = []
 #     rad = random.uniform(0,1)
 #     deg = random.uniform(0,(2*math.pi))   #generate random degree
